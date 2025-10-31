@@ -1,0 +1,57 @@
+You are a competent researcher.
+You will be provided with a question, question subject, candidate entities, and an input dialogue.
+Your job is to identify whether an input question subject is included in candidate entities or can be replaced by one of the candidate entities, referring to the input dialogue if needed.
+Below is an explanation for this task.
+- Question subject: It refers to a person or object which a question focuses on. 
+    - Example 1)
+        - Question: "What is Tommy eating for a breakfast?"
+        - Question subject: "Tommy"
+    - Example 2)
+        - Question: "What is the name of Mr. Harrison's grandchild?"
+        - Question subject: "Mr. Harrison"
+- Candidate entities: They are a list of all nodes from a temporal knowledge graph (TKG).
+    - Example: ["Lantern", "Whisper", "Marble", "Eclipse", "Meadow", "Orbit", "Fragment", "Velvet", "Horizon"]
+- Input dialogue: It is a dialogue which is in progress. It may be related to the question or not. 
+    - Example)
+        Emma: "I finally signed up for that cooking class downtown. I've always wanted to learn how to make authentic Italian pasta."
+        Liam: "That sounds awesome! Do you have to bring your own ingredients, or do they provide everything?"
+        Emma: "They provide everything. Plus, we get to eat what we make at the end of the class!"
+
+All cases fall into these 3 cases. For each case, your output should be in a proper format.
+- Case 1: If a question subject is directly included in candidate entities (ignore case sensitivity), you should output a CAPITALIZED question subject.
+    - Example) 
+        - Question subject: "jennifer"
+        - Candidate entities: ["Library", "George", "Baguette", "Temperature", "Jennifer"]
+        - Output: "Jennifer"
+        - Explanation: "jennifer" is directly included in candidate entities (as aforementioned, ignoring case sensitivity), and its capitalized form is "Jennifer".
+- Case 2: If a question subject is not directly included in candidate entities, but can be replaced by one of the candidate entities referring to the input dialogue, output an according candidiate entity.
+    - Example)
+        - Question: "Do you happen to remember which school Mr. Hodge's son attended?"
+        - Question subject: "Mr. Hodge"
+        - Dialogue:
+            Mr. Hodge: "Hi, Taylor! Are you returning from your farm?"
+            Taylor: "Of course, James! I just finished my work. Where are you going now?"
+            Mr. Hodge: "I am going to library to return the books I read. I am gonna borrow new books!"
+        - Candidate entities: ["Books", "Lyla", "James Hodge", "Quartz", "Breeze", "Candle", "Jungle", "Anchor", "Puzzle", "Frost", "Galaxy"]
+        - Output: "James Hodge"
+        - Explanation: The provided question "Mr. Hodge" is not directly included in the candidate entities. However, from the dialogue, you can figure out that the first name of "Mr. Hodge" is "James", thereby the full name of "Mr. Hodge" being "James Hodge". "James Hodge" is directly included in the candidate entities, so it should be your output.
+- Case 3: If a question subject (or is replacement based on the input dialogue) is neither directly included in candidate entities or cannot be replaced by any candidiate entity, you should output an empty string (i.e., '')
+    - Example)
+        - Question: "How much money did Charlie borrow from Lyla?"
+        - Question subject: "Charlie"
+        - Dialogue:
+            Hannah: "Oh my gosh, I forgot my wallet! I can't remember where I put it."
+            Charlie: "Did you check the ladies' room? You might have left it there."
+            Hannah: "Oh, I didn’t think of that! I’ll go check there right now. Thanks!"
+        - Candidate entities: ["Harbor", "Crescent", "Echo", "Ripple", "Summit", "Vortex", "Ember", "Drift", "Beacon", "Shimmer"]
+        - Output: ''
+        - Explanation: "Charlie" is a correct question subject of the input question, and there is no proper replacement for "Charlie" in the input dialogue. However, "Charlie" is not included in the candidate entities. Therefore, you should output ''.
+========================================
+Now, let's begin the task. Please note that you CANNOT output ANY INTERMEDIATE STEP.
+
+- Question: {question}
+- Question subject: {question_subject}
+- Dialogue: 
+{dialogue}
+- Candidate entities: {candidate_entities}
+- Output: 
