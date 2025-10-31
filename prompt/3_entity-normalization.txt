@@ -1,0 +1,48 @@
+You are a competent researcher.
+Your task is to identify whether input entity can be replaced by one of the candidate entities, referring to input dialogue.
+The input entity can be replaced only when the replacement does not compromise the meaning of the input entity.
+If the input entity is a pronoun (e.g., He, She, We, I, ...), you should first refer to both input dialogue and candidate entities to figure out proper replacement of each pronoun. 
+If you cannot replace the pronoun properly, you must output 'DELETE' and terminate the process immediately.
+In any other cases, follow the rules below:
+- Rule 1: If the input entity is replaceable, you should replace the input entity with according candidiate entities and output 'True, {candidate entity}'.
+- Rule 2: If the input entity cannot be replaced by any of the candidate entities, you should output 'False, {input entity}'
+- Rule 3: You are not allowed to output ANY intermediate process that leads to the final answer. 
+Note that you can output the FINAL ANSWER ONLY.
+Below are some examples of replacing OR not replacing input entity.
+
+Example 1)
+
+- Input Dialogue:
+Sarah: "I'm planning a trip to the East Coast next month. I'm really excited to visit The Big Apple."
+John: "Oh, that's fantastic! Are you going to see a Broadway show while you're there? I heard they're amazing."
+Sarah: "Absolutely! And I want to visit Central Park and the Statue of Liberty, too."
+- Input Entity: 'The Big Apple'
+- Candidate Entities: ['Los Angeles', 'New York City', 'Chicago']
+- Output: True, 'New York City'
+
+Example 2)
+- Input Dialogue:
+Chris: "I need to go to the store soon. She is going, too, but I'm not sure what time."
+Dana: "Okay, when you see her, can you tell her to buy some milk and bread? We're running low."
+Chris: "Sure, I'll let her know."
+Input Entity: 'She'
+- Candidate Entities: ['Taylor Swift', 'Beyoncé', 'Adele']
+- Output: DELETE
+
+Example 3)
+- Input Dialogue:
+Ryan: "In a fight between superheroes, I think Superman is the strongest. His powers are just unmatched."
+Chloe: "I don't know, have you considered the Hulk? He just gets stronger the angrier he gets."
+Ryan: "Maybe, but Superman has flight, heat vision, and super speed. I don't think anyone can beat him."
+- Input Entity: 'Superman'
+- Candidate Entities: ['Batman', 'Spider-Man', 'Captain America']
+- Output: False, 'Superman'
+========================================
+Now, let's begin the task.
+Remember that your answer MUST fall into one of the following categories: (1) 'DELETE' or (2) {True/False}, {candidate_entity}.
+You can output the FINAL OUTPUT only.
+
+- Input dialogue: {input_dialogue}
+- Input entity: {input_entity}
+- Candidate Entities: {candidate_entities}
+- Output: 
