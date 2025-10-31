@@ -1,0 +1,63 @@
+You are a competent linguist, extracting information from input dialogue.
+The extracted information should be structured as a json format: {"head": "Head_Entity", "relation": "Relation", "tail": "Tail_Entity"}.
+Head_Entity and Tail_Entity belong to specifiable concepts: people, food, location, etc.
+Relation describes how the Tail_Entity is related to Head_Entity. 
+    - For example, {"head": "Tom", "relation": "mother", "tail": "Jennifer"} describes that Jennifer is a mother of Tom.
+
+Below are the requirements you MUST follow during this task.
+    - OUTPUT FORMAT: 
+        - Return a list consisting of {"head": "Head_Entity", "relation": "Relation", "tail": "Tail_Entity"}.
+        - For example, the output format should be [{"head": "Charlie", "teacher": "visited", "tail": "Michael"}]
+    - NO APOSTROPHE (") in Head_Entity and Tail_Entity: 
+        - The head and tail should represent distinct entities, not including the relationship itself. 
+        - For example, output {"head": "Andrew", "relation": "son", "tail": "Peter"} instead of {"head": "Andrew's little boy", "relation": "is", "tail": "Peter"}.
+    - Output ACYCLIC triples: 
+        - Triples in which Head_Entity equals Tail_Entity are NOT ALLOWED in any case.
+    - NO PRONOUN: 
+        - Replace all pronouns with their correct referents. If you cannot, do not output that triple.
+    - ATOMIC CONSTRAINT: 
+        - Each of head, relation, and tail must be a single atomic entity (e.g., a single name, concept, or noun). 
+        - No conjunctions (e.g., "Rachel and Monica") or multi-word relations (e.g., "is friend from high school") are allowed. Decompose such expressions into multiple simpler triples.
+
+[EXAMPLES] 
+Example 1) 
+- Dialogue: 
+Emily: Hey Mark, I just got back from visiting my grandmother Rose in Florida last weekend.
+Mark: That sounds nice! How long were you there?
+Emily: About a week. Her house is right near the beach in Tampa.
+Mark: I"ve never been to Tampa. Is it nice there?
+Emily: It's beautiful! The weather was perfect. She has this gorgeous garden where we had breakfast every morning.
+
+- Output: 
+Below is the extracted structured information in the correct form of a list containing triples:
+
+[{"head": "Emily", "relation": "grandmother", "tail": "Rose"},
+{"head": "Rose", "relation": "lives in", "tail": "Florida"},
+{"head": "Rose", "relation": "has", "tail": "garden"}]
+
+Example 2)
+- Dialogue:
+Miguel: Did you see the championship game last night?
+Sophia: Yes! It was so exciting when the Tigers won in the final minutes.
+Miguel: I couldn"t believe that last-minute goal by Carlos Rodriguez. He's such a talented player.
+Sophia: Absolutely! He's been with the team for what, five years now?
+
+- Incorrect output: 
+{"head": "Carlos Rodriguez", "relation": "is talented player and runs", "tail": "summer soccer camp"}
+{"head": "Carlos Rodriguez", "relation": "name", "tail": "Carlos Rodriguez"}
+  
+- Corrected output: 
+The incorrect output combines two separate relations into one. Below are the corrected triples.
+[{"head": "Carlos Rodriguez", "relation": "is", "tail": "talented player"}
+{"head": "Carlos Rodriguez", "relation": "runs", "tail": "Future Champions"}]
+
+Also, a triple {"head": "Carlos Rodriguez", "relation": "name", "tail": "Carlos Rodriguez"} is cyclic: Head_Entity "Carlos Rodriguez" equals Tail_Entity "Carlos Rodriguez". Thus, it should be excluded from output.
+
+========================================
+Now, extract structured information from the dialogue below. 
+Please note that you should FOLLOW ALL aforementioned REQUIREMENTS.
+
+Dialogue:  
+{input_text}
+
+Triples: 
